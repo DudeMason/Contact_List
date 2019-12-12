@@ -1,6 +1,7 @@
 require './contact.rb'
 
 @users = []
+@contacts = []
 
 def intro
   puts "Welcome, please login or create an account to view your contact list"
@@ -100,6 +101,37 @@ def menu
     intro
   else puts "Invalid entry, please try again!"
     menu
+  end
+end
+
+def contact_view
+  puts "-----------------"
+  puts "Your contact list"
+  @contacts.each {|c|
+  puts c.display}
+  menu
+end
+
+def account_edit
+  puts "What would you like to change/add?"
+  puts "1) Username"
+  puts "2) Password"
+  puts "3) Email"
+  puts "4) Phone Number"
+  puts "5) Address"
+  num = gets.strip.to_i
+
+  case num
+  when 1
+
+  when 2
+
+  when 3
+
+  when 4
+
+  when 5
+
   end
 end
 
