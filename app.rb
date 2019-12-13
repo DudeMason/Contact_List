@@ -119,18 +119,64 @@ def account_edit
   puts "3) Email"
   puts "4) Phone Number"
   puts "5) Address"
+  puts "6) Main Menu"
   num = gets.strip.to_i
 
   case num
   when 1
-
+    puts "Your current username is #{@current_user.username}"
+    puts "What would you like to change it to?"
+    puts "Or type 'back' to return"
+    new = gets.strip
+    if new == "back"
+      account_edit
+    elsif new == "exit"
+      account_edit
+    elsif new.to_i == Integer
+      account_edit
+    elsif new == ""
+      puts "Type a new username or type 'back' to return to menu"
+      num.1
+    else
+      @current_user.username = new
+      print @current_user
+      puts "Username updated!"
+      account_edit
+    end
   when 2
+    puts "Type your current password"
+    currentpass = gets.strip
+    if currentpass == @current_user.password
+      puts "Type your new password"
+      newpass = gets.strip
+      puts "Please confrim your new password"
+      passconfirm = gets.strip
+      if newpass == passconfirm
+        bruh = @current_user.password
+        puts "-----------------"
+        puts "Password updated!"
+        puts "-----------------"
+        account_edit
+      elsif p != p2
+        puts "****************************"
+        puts "*The passwords did not match*"
+        puts "****************************"
+        num.2
+      else
+        puts "**********************"
+        puts "*Something went wrong*"
+        puts "**********************"
+        account_edit
+      end
+    end
 
   when 3
 
   when 4
 
   when 5
+
+  when 6
 
   end
 end
