@@ -30,6 +30,9 @@ class User
   def initialize(username, password, phone_number, address, email)
     @username = username
     @password = password
+    @phone_number = phone_number
+    @address = address
+    @email = email
   end
 
   def log

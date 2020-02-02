@@ -1,4 +1,5 @@
 require './contact.rb'
+require 'io/console'
 
 @users = []
 @contacts = []
@@ -14,9 +15,9 @@ def intro
   elsif choice == 2
     account_create
   else
-    puts "********************************"
-    puts "Invalid entry, please try again!"
-    puts "********************************"
+    puts "**********************************"
+    puts "*Invalid entry, please try again!*"
+    puts "**********************************"
     intro
   end
 end
@@ -25,25 +26,35 @@ def login
   puts "Enter your username"
   user = gets.strip
   puts "Enter your password"
-  pass = gets.strip
+  pass = STDIN.getpass("Password:").strip
   @users.each {|u|
-  if u.log == user + pass
-    @current_user = u
-    puts "----------------------------------------------"
-    puts "Login successfull! Welcome #{@current_user.username}!"
-    puts "----------------------------------------------"
-    menu
-  end}
+    if u.log == user + pass
+      @current_user = u
+      puts "----------------------------------------"
+      puts "Login successfull! Welcome, #{@current_user.username}!"
+      puts "----------------------------------------"
+      menu
+    end
+  }
   @users.each {|u|
-  if u.username == user
-    puts "********************"
-    puts "*Incorrect password*"
-    puts "********************"
-    intro
-  end}
-  puts "*****************"
-  puts "**Invalid Entry**"
-  puts "*****************"
+    if u.username == user
+      puts "********************"
+      puts "*Incorrect password*"
+      puts "********************"
+      intro
+    end
+  }
+  @users.each {|u|
+    if u.password == pass
+      puts '********************'
+      puts '*Incorrect username*'
+      puts '********************'
+      intro
+    end
+  }
+  puts "***************"
+  puts "*Invalid Entry*"
+  puts "***************"
   intro
 end
 
@@ -55,20 +66,26 @@ end
 
 def password
   puts "What will be your password?"
-  p = gets.strip.to_s
+  p = STDIN.getpass("Password:").strip
+    if p.length < 8
+      puts '*********************************************'
+      puts '*Password must be at least 8 characters long*'
+      puts '*********************************************'
+      password
+    end
   puts "Please confirm your password."
-  p2 = gets.strip.to_s
+  p2 = STDIN.getpass("Password:").strip
   if p == p2
-    bruh = User.new(@a, p)
+    bruh = User.new(@a, p, 0, 0, '')
     @users << bruh
     puts "-------------"
     puts "User created!"
     puts "-------------"
     intro
   elsif p != p2
-    puts "****************************"
+    puts "*****************************"
     puts "*The passwords did not match*"
-    puts "****************************"
+    puts "*****************************"
     password
   else
     puts "**********************"
@@ -99,17 +116,28 @@ def menu
     edit_contact
   when 5
     intro
-  else puts "Invalid entry, please try again!"
+  else
+    puts '**********************************'
+    puts "*Invalid entry, please try again!*"
+    puts '**********************************'
     menu
   end
 end
 
 def contact_view
-  puts "-----------------"
-  puts "Your contact list"
-  @contacts.each {|c|
-  puts c.display}
-  menu
+  if @contacts.length == 0
+    puts "**********************************"
+    puts "*You don't have any contacts yet!*"
+    puts "**********************************"
+    menu
+  else
+    puts "-------------------"
+    puts "↓Your contact list↓"
+    puts "-------------------"
+    @contacts.each {|c|
+    puts c.display}
+    menu
+  end
 end
 
 def account_edit
@@ -136,7 +164,7 @@ def account_edit
       account_edit
     elsif new == ""
       puts "Type a new username or type 'back' to return to menu"
-      num.1
+      num[1]
     else
       @current_user.username = new
       print @current_user
@@ -158,10 +186,10 @@ def account_edit
         puts "-----------------"
         account_edit
       elsif p != p2
-        puts "****************************"
+        puts "*****************************"
         puts "*The passwords did not match*"
-        puts "****************************"
-        num.2
+        puts "*****************************"
+        num[2]
       else
         puts "**********************"
         puts "*Something went wrong*"
