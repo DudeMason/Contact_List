@@ -10,11 +10,10 @@ class Contact
   end
 
   def display
-    puts "----------------------------"
-    puts "#{@first_name} #{@last_name}"
-    puts "#{@address}"
-    puts "#{@phone_number}"
-    puts "#{@email}"
+    puts "Name: #{@first_name} #{@last_name}"
+    puts "Address: #{@address}"
+    puts "Phone: #{@phone_number}"
+    puts "Email: #{@email}"
     puts "----------------------------"
   end
 

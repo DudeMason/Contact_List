@@ -148,7 +148,7 @@ def contact_view
     menu
   else
     puts "-------------------"
-    puts "↓Your contact list↓"
+    puts "-Your contact list-"
     puts "-------------------"
     @contacts.each {|c|
     puts c.display}
@@ -271,11 +271,145 @@ def account_edit
 end
 
 def add_contact
+  puts '------------------'
+  puts '-Contact Addition-'
+  puts '------------------'
+  puts 'Enter first name:'
+  @first = gets.strip
+  if @first == 'back'
+    puts '***************************'
+    puts '*Contact Addition Canceled*'
+    puts '***************************'
+    menu
+  elsif @first == 'exit'
+    puts '***************************'
+    puts '*Contact Addition Canceled*'
+    puts '***************************'
+    menu
+  elsif @first == 'quit'
+    puts '***************************'
+    puts '*Contact Addition Canceled*'
+    puts '***************************'
+    menu
+  elsif @first == 'cancel'
+    puts '***************************'
+    puts '*Contact Addition Canceled*'
+    puts '***************************'
+    menu
+  end
+  puts 'Enter last name:'
+  @last = gets.strip
+  if @last == 'back'
+    puts '***************************'
+    puts '*Contact Addition Canceled*'
+    puts '***************************'
+    menu
+  elsif @last == 'exit'
+    puts '***************************'
+    puts '*Contact Addition Canceled*'
+    puts '***************************'
+    menu
+  elsif @last == 'quit'
+    puts '***************************'
+    puts '*Contact Addition Canceled*'
+    puts '***************************'
+    menu
+  elsif @last == 'cancel'
+    puts '***************************'
+    puts '*Contact Addition Canceled*'
+    puts '***************************'
+    menu
+  else
+    email_or_pass
+  end
+end
 
+def email_or_pass
+  puts 'Email or phone number?'
+  puts '1) Email'
+  puts '2) Phone'
+  puts '3) Both'
+  puts '4) Cancel'
+  choice = gets.strip.to_i
+  if choice == 1
+    puts 'Enter email:'
+    email = gets.strip
+    newcon = Contact.new(@first, @last, 0, 0, email)
+    @contacts << newcon
+    puts '----------------'
+    puts '-Contact Added!-'
+    puts '----------------'
+    menu
+  elsif choice == 2
+    puts 'Enter phone number:'
+    phone = gets.strip.to_i
+    if phone == 0
+      puts '*************************'
+      puts '*Must be a valid number!*'
+      puts '*************************'
+      email_or_pass
+    elsif phone.length < 10
+      puts '*******************************************************'
+      puts '*10 digits or more required. Please include area code.*'
+      puts '*******************************************************'
+      email_or_pass
+    end
+    newcon = Contact.new(@first, @last, 0, phone, '')
+    @contacts << newcon
+    puts '----------------'
+    puts '-Contact Added!-'
+    puts '----------------'
+    menu
+  elsif choice == 3
+    puts 'Enter email:'
+    email = gets.strip
+    puts 'Enter phone number:'
+    phone = gets.strip
+    if phone == 0
+      puts '*************************'
+      puts '*Must be a valid number!*'
+      puts '*************************'
+      email_or_pass
+    elsif phone.length < 10
+      puts '*******************************************************'
+      puts '*10 digits or more required. Please include area code.*'
+      puts '*******************************************************'
+      email_or_pass
+    end
+    newcon = Contact.new(@first, @last, 0, phone, email)
+    @contacts << newcon
+    puts '----------------'
+    puts '-Contact Added!-'
+    puts '----------------'
+    menu
+  elsif choice == 4
+    puts '***************************'
+    puts '*Contact Addition Canceled*'
+    puts '***************************'
+    menu
+  else
+    puts '**********************************'
+    puts "*Invalid entry, please try again!*"
+    puts '**********************************'
+    email_or_pass
+  end
 end
 
 def edit_contact
-
+  if @contacts.length == 0
+    puts "**********************************"
+    puts "*You don't have any contacts yet!*"
+    puts "**********************************"
+    menu
+  else
+    puts "-------------------"
+    puts "↓Your contact list↓"
+    puts "-------------------"
+    @contacts.each {|c|
+    puts c.display}
+    puts '-------------------------------------'
+    puts 'Which contact would you like to edit?'
+  end
 end
 
 intro
