@@ -118,7 +118,8 @@ def menu
   puts "2) Edit Account Info"
   puts "3) Add Contact"
   puts "4) Edit Contact"
-  puts "5) Log Out"
+  puts "5) Delete Contact"
+  puts "6) Log Out"
   choice = gets.strip.to_i
 
   case choice
@@ -131,6 +132,8 @@ def menu
   when 4
     edit_contact
   when 5
+    delete_contact
+  when 6
     intro
   else
     puts '**********************************'
@@ -403,12 +406,110 @@ def edit_contact
     menu
   else
     puts "-------------------"
-    puts "↓Your contact list↓"
+    puts "-Your contact list-"
     puts "-------------------"
     @contacts.each {|c|
     puts c.display}
-    puts '-------------------------------------'
-    puts 'Which contact would you like to edit?'
+    puts '---------------------------------------'
+    puts '-Which contact would you like to edit?-'
+    puts '-----Select by typing a first name-----'
+    puts "---Or type 'quit' to return to menu----"
+  end
+  name = gets.strip
+  if @contacts.each { |c|
+      if c.first_name == name
+        @individual = c
+        edit_individual
+      end}
+  elsif name == 'quit'
+    menu
+  elsif name == 'exit'
+    menu
+  elsif name == 'back'
+    menu
+  elsif name == 'menu'
+    menu
+  else
+    puts '*****************************'
+    puts '*That contact does not exist*'
+    puts '*****************************'
+    edit_contact
+  end
+end
+
+def edit_individual
+  puts '------------------------------'
+  puts '-What would you like to edit?-'
+  puts '1) First Name'
+  puts '2) Last Name'
+  puts '3) Phone Number'
+  puts '4) Email'
+  puts '5) Address'
+  puts '6) Return to Menu'
+  puts '-------------------------'
+  choice = gets.strip.to_i
+  if choice == 1
+    puts 'What will the new first name be?'
+    new_first = gets.strip
+    @individual.first_name = new_first
+    puts '---------------------'
+    puts '-First Name Updated!-'
+    puts '---------------------'
+    edit_individual
+  elsif choice == 2
+    puts 'What will the new last name be?'
+    new_last = gets.strip
+    @individual.last_name = new_last
+    puts '--------------------'
+    puts '-Last Name Updated!-'
+    puts '--------------------'
+    edit_individual
+  elsif choice == 3
+    puts 'What will the new number be?'
+    new_num = gets.strip.to_i
+    if new_num == 0
+      puts '*************************'
+      puts '*Must be a valid number!*'
+      puts '*************************'
+      edit_individual
+    elsif new_num.length < 10
+      puts '*******************************************************'
+      puts '*10 digits or more required. Please include area code.*'
+      puts '*******************************************************'
+      edit_individual
+    end
+    @individual.phone_number = new_num
+    puts '-----------------'
+    puts '-Number Updated!-'
+    puts '-----------------'
+    edit_individual
+  elsif choice == 4
+    puts 'What will the new email be?'
+    new_mail = gets.strip
+    @individual.email = new_mail
+    puts '----------------'
+    puts '-Email Updated!-'
+    puts '----------------'
+    edit_individual
+  elsif choice == 5
+    puts 'What will the new address be?'
+    new_address = gets.strip
+    @individual.address = new_address
+    puts '------------------'
+    puts '-Address Updated!-'
+    puts '------------------'
+    edit_individual
+  elsif choice == 6
+    @contacts.each {|c|
+    if c.object_id === @individual.object_id
+      c = @individual
+    end}
+    edit_contact
+  else
+    puts '**********************************'
+    puts '*Invalid Entry, Please Try Again!*'
+    puts '**********************************'
+    edit_individual
   end
 end
 
